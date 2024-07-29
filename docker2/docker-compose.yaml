@@ -1,0 +1,17 @@
+services:
+  redis:
+    image: redislabs/redismod
+    container_name: redis
+    ports:
+      - "6379:6379"  # 호스트의 6379 포트를 컨테이너의 6379 포트와 연결
+
+  web:
+    build:
+      context: .  # 현재 디렉토리에서 Dockerfile을 기반으로 빌드
+    container_name: web
+    ports:
+      - "8000:8000"  # 호스트의 8000 포트를 컨테이너의 8000 포트와 연결
+    volumes:
+      - ./web_data:/app/data  # 호스트의 web_data 디렉토리를 컨테이너의 /app/data 디렉토리로 매핑
+    depends_on:
+      - redis  # redis 서비스가 먼저 실행되어야 함
